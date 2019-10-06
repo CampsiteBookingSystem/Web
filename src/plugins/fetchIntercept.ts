@@ -1,13 +1,15 @@
 import fetchIntercept from 'fetch-intercept';
 
-const unregister = fetchIntercept.register({
-  request: (url, config) => {
-    return [url, config];
-  },
+export let unregister: any;
 
-  response: response => {
-    return response;
-  },
-});
+export function register() {
+  unregister = fetchIntercept.register({
+    request: (url, config) => {
+      return [url, config];
+    },
 
-export default unregister;
+    response: response => {
+      return response;
+    },
+  });
+}
