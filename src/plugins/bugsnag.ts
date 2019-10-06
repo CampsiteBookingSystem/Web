@@ -6,7 +6,7 @@ const apiKey: string | undefined = process.env.REACT_APP_BUGSNAG_API_KEY;
 
 let bugsnagClient: Bugsnag.Client | undefined;
 
-if (apiKey !== undefined) {
+if (apiKey) {
   bugsnagClient = bugsnag(apiKey);
 
   bugsnagClient.use(bugsnagReact, React);

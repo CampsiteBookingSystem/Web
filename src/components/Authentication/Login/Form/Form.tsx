@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { Button } from 'booking-system-ui';
-
-import { Input } from '../../Elements';
+import React, { useState, FormEvent } from 'react';
+import { Button, Input } from 'booking-system-ui';
 
 import './Form.css';
 
@@ -14,10 +12,13 @@ function Form(props: Props) {
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  function handleSubmit() {
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+
     setLoading(true);
 
     // Call API
+    console.log('onSubmit');
 
     setLoading(false);
 
@@ -26,27 +27,46 @@ function Form(props: Props) {
     }
   }
 
+  const isValid = email !== '' && password !== '';
+
   return (
-    <form className="LoginForm">
+    <form className="LoginForm" noValidate onSubmit={handleSubmit}>
       <div className="LoginForm__input">
         <Input
+          id="email"
           name="email"
           type="email"
-          label="Votre adresse e-mail"
-          onChange={(name, value) => setEmail(value)}
+          theme="primary"
+          label="My email address"
+          placeholder="email@example.com"
+          required
+          emptyErrorMessage="Please enter your email address."
+          onChange={setEmail}
         />
       </div>
       <div className="LoginForm__input">
         <Input
+          id="password"
           name="password"
           type="password"
-          label="Votre mot de passe"
-          onChange={(name, value) => setPassword(value)}
+          theme="primary"
+          label="My password"
+          placeholder="********"
+          required
+          canTogglePassword
+          emptyErrorMessage="Please enter your password."
+          onChange={setPassword}
         />
       </div>
       <div className="LoginForm__actions">
-        <Button scope="rounded" loading={loading} onClick={handleSubmit}>
-          Me connecter
+        <Button
+          type="submit"
+          size="large"
+          disabled={!isValid}
+          loading={loading}
+          onClick={handleSubmit}
+        >
+          Sign in
         </Button>
       </div>
     </form>

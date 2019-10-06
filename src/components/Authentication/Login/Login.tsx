@@ -3,18 +3,16 @@ import { Link } from 'react-router-dom';
 
 import Form from './Form';
 
-import './Login.css';
-
 function Login() {
   return (
-    <div className="Login">
-      <h1 className="Login__title">Me connecter</h1>
-      <div className="Login__form">
+    <div>
+      <h1 className="Authentication__title">Welcome!</h1>
+      <div className="Authentication__form">
         <Form />
       </div>
-      <div className="Login__links">
-        <Link className="Login__link" to="/register">
-          Créer un compte
+      <div className="Authentication__links">
+        <Link className="Authentication__link" to="/forgot-password">
+          I forgot my password
         </Link>
       </div>
     </div>

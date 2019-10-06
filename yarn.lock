@@ -2431,7 +2431,7 @@ bonjour@^3.5.0:
 
 "booking-system-ui@git+ssh://git@github.com/CampsiteBookingSystem/UI.git#master":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/CampsiteBookingSystem/UI.git#621e78509659483294201f49b602e4805fba6e9c"
+  resolved "git+ssh://git@github.com/CampsiteBookingSystem/UI.git#74624928501c82ab63149f9c8ed65b424ea71c7a"
   dependencies:
     classnames "^2.2.6"
 
