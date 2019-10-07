@@ -6,8 +6,8 @@ import App from './components/App';
 import 'sanitize.css/sanitize.css';
 import 'sanitize.css/forms.css';
 
-import 'booking-system-ui/lib/styles/fonts/open-sans.css';
-import 'booking-system-ui/lib/styles/colors.css';
+import '@owlnite/ui/lib/styles/fonts/open-sans.css';
+import '@owlnite/ui/lib/styles/colors.css';
 
 import './index.css';
 

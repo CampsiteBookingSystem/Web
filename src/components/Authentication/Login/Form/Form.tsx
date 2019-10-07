@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import { Button, Input } from 'booking-system-ui';
+import { Button, Input } from '@owlnite/ui';
 
 import './Form.css';
 

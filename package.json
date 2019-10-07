@@ -1,12 +1,15 @@
 {
-  "name": "booking-system-web",
-  "description": "Web app of the Campsite Booking System",
+  "name": "owlnite-web",
+  "description": "OwlNite Booking Management System main web app.",
   "version": "0.1.0",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owlnite/Web"
+  },
   "dependencies": {
     "@bugsnag/js": "^6.4.1",
     "@bugsnag/plugin-react": "^6.4.0",
-    "booking-system-ui": "git+ssh://git@github.com/CampsiteBookingSystem/UI.git#master",
+    "@owlnite/ui": "0.1.0",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.5.2",
     "fetch-intercept": "^2.3.1",
