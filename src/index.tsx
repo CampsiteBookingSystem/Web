@@ -6,8 +6,8 @@ import App from './components/App';
 import 'sanitize.css/sanitize.css';
 import 'sanitize.css/forms.css';
 
-import '@owlnite/ui/lib/styles/fonts/open-sans.css';
-import '@owlnite/ui/lib/styles/colors.css';
+import '@vulpee/ui/lib/styles/fonts/open-sans.css';
+import '@vulpee/ui/lib/styles/colors.css';
 
 import './index.css';
 

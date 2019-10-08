@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-import { Button, Input } from '@owlnite/ui';
+import { Button, Input } from '@vulpee/ui';
 
 import './Form.css';
 
