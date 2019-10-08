@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import { Button, Input } from '@vulpee/ui';
 
+import { VulpeeApi } from '../../../../api';
+
 import './Form.css';
 
 interface Props {
@@ -11,20 +13,30 @@ function Form(props: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<{ field: string; message: string } | undefined>();
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
     setLoading(true);
+    setError(undefined);
 
-    // Call API
-    console.log('onSubmit');
+    try {
+      const data = await VulpeeApi.login(email, password);
+
+      console.log(data);
+      if (props.onSubmit) {
+        props.onSubmit(email, password);
+      }
+    } catch (exception) {
+      setError(exception.error);
+    }
 
     setLoading(false);
+  }
 
-    if (props.onSubmit) {
-      props.onSubmit(email, password);
-    }
+  function handleChange() {
+    setError(undefined);
   }
 
   const isValid = email !== '' && password !== '';
@@ -41,7 +53,12 @@ function Form(props: Props) {
           placeholder="email@example.com"
           required
           emptyErrorMessage="Please enter your email address."
-          onChange={setEmail}
+          error={error !== undefined}
+          errorMessage={error && error.field === 'email' ? error.message : undefined}
+          onChange={value => {
+            setEmail(value);
+            handleChange();
+          }}
         />
       </div>
       <div className="LoginForm__input">
@@ -55,7 +72,12 @@ function Form(props: Props) {
           required
           canTogglePassword
           emptyErrorMessage="Please enter your password."
-          onChange={setPassword}
+          error={error && error.field === 'password'}
+          errorMessage={error && error.field === 'password' ? error.message : undefined}
+          onChange={value => {
+            setPassword(value);
+            handleChange();
+          }}
         />
       </div>
       <div className="LoginForm__actions">

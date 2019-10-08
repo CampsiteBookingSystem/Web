@@ -9,7 +9,8 @@
   "dependencies": {
     "@bugsnag/js": "^6.4.1",
     "@bugsnag/plugin-react": "^6.4.0",
-    "@vulpee/ui": "0.1.0",
+    "@vulpee/js-api": "^0.1.2",
+    "@vulpee/ui": "^0.1.4",
     "classnames": "^2.2.6",
     "connected-react-router": "^6.5.2",
     "fetch-intercept": "^2.3.1",
