@@ -54,7 +54,7 @@ function Form(props: Props) {
           required
           emptyErrorMessage="Please enter your email address."
           error={error !== undefined}
-          errorMessage={error && error.field === 'email' ? error.message : undefined}
+          errorMessage={error && error.field === 'uid' ? error.message : undefined}
           onChange={value => {
             setEmail(value);
             handleChange();
