@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import { Button, Input } from '@vulpee/ui';
+import { Error } from '@vulpee/js-api';
 
 import { VulpeeApi } from '../../../../api';
 
@@ -13,7 +14,7 @@ function Form(props: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<{ field: string; message: string } | undefined>();
+  const [error, setError] = useState<Error | undefined>();
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();

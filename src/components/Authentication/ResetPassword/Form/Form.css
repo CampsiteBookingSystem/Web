@@ -1,9 +1,9 @@
-.ForgotPasswordForm__input {
+.ResetPasswordForm__input {
   width: 400px;
   margin-bottom: 40px;
 }
 
-.ForgotPasswordForm__message {
+.ResetPasswordForm__message {
   margin-bottom: 20px;
   color: var(--color-success);
 }

@@ -20,10 +20,23 @@
   width: 50%;
 }
 
+.Authentication__container {
+  width: 500px;
+}
+
+.Authentication__header {
+  margin-bottom: 40px;
+}
+
 .Authentication__title {
-  margin: 0 0 40px;
+  margin: 0 0 20px;
   color: var(--color-primary);
   font-size: 38px;
+}
+
+.Authentication__subtitle {
+  color: var(--color-text);
+  line-height: 1.8;
 }
 
 .Authentication__links {

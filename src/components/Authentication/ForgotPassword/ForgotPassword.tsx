@@ -3,10 +3,16 @@ import { Link } from 'react-router-dom';
 
 import Form from './Form';
 
-function Login() {
+function ForgotPassword() {
   return (
-    <div>
-      <h1 className="Authentication__title">Recover your password</h1>
+    <div className="Authentication__container">
+      <div className="Authentication__header">
+        <h1 className="Authentication__title">I forgot my password</h1>
+        <p className="Authentication__subtitle">
+          Enter your email here and we'll send you an email with instructions on how to recover your
+          account.
+        </p>
+      </div>
       <div className="Authentication__form">
         <Form />
       </div>
@@ -19,4 +25,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default ForgotPassword;

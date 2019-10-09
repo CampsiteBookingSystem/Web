@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
 
-import { Login, ForgotPassword } from '.';
+import { Login, ForgotPassword, ResetPassword } from '.';
 
 import './Authentication.css';
 
@@ -13,6 +13,7 @@ function Authentication() {
         <Switch>
           <Route path="/" exact component={Login} />
           <Route path="/forgot-password" exact component={ForgotPassword} />
+          <Route path="/reset-password" exact component={ResetPassword} />
         </Switch>
       </div>
     </div>

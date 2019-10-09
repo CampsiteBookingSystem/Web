@@ -1,5 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import { Button, Input } from '@vulpee/ui';
+import { Error } from '@vulpee/js-api';
+
+import { VulpeeApi } from '../../../../api';
 
 import './Form.css';
 
@@ -10,20 +13,32 @@ interface Props {
 function Form(props: Props) {
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | undefined>();
+  const [valid, setValid] = useState<boolean>(false);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
     setLoading(true);
 
-    // Call API
-    console.log('onSubmit');
+    try {
+      await VulpeeApi.forgotPassword(email);
+
+      setValid(true);
+
+      if (props.onSubmit) {
+        props.onSubmit(email);
+      }
+    } catch (exception) {
+      setError(exception.error);
+    }
 
     setLoading(false);
+  }
 
-    if (props.onSubmit) {
-      props.onSubmit(email);
-    }
+  function handleChange() {
+    setError(undefined);
+    setValid(false);
   }
 
   const isValid = email !== '';
@@ -40,14 +55,24 @@ function Form(props: Props) {
           placeholder="email@example.com"
           required
           emptyErrorMessage="Please enter your email address."
-          onChange={setEmail}
+          error={error !== undefined}
+          errorMessage={error && error.field === 'uid' ? error.message : undefined}
+          onChange={value => {
+            setEmail(value);
+            handleChange();
+          }}
         />
       </div>
+      {valid && (
+        <div className="ForgotPasswordForm__message">
+          An email with instructions on how to reset your password has been sent.
+        </div>
+      )}
       <div className="ForgotPasswordForm__actions">
         <Button
           type="submit"
           size="large"
-          disabled={!isValid}
+          disabled={!isValid || valid}
           loading={loading}
           onClick={handleSubmit}
         >
