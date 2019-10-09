@@ -1,36 +1,74 @@
-import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
-import { Route } from 'react-router-dom';
+import React, { useEffect, Fragment, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocalStorage } from 'standard-hooks';
 
-import store, { history } from '../store';
+import { State } from '../store';
 
-import bugsnagClient from '../plugins/bugsnag';
 import { register, unregister } from '../plugins/fetchIntercept';
 
+import { VulpeeApi } from '../api';
+
+import AppActionTypes from '../actions/AppActions';
+
+import Dashboard from './Dashboard';
 import Authentication from './Authentication';
 
 import './App.css';
 
-const ErrorBoundary =
-  bugsnagClient === undefined ? React.Fragment : bugsnagClient.getPlugin('react');
-
 function App() {
+  const [localToken, setLocalToken] = useLocalStorage<string>('token');
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const token = useSelector((state: State) => state.app.token);
+  const authenticated = useSelector((state: State) => state.app.authenticated);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     register();
 
     return () => unregister();
   }, []);
 
-  return (
-    <ErrorBoundary>
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <Route component={Authentication} />
-        </ConnectedRouter>
-      </Provider>
-    </ErrorBoundary>
-  );
+  useEffect(() => {
+    if (localToken) {
+      dispatch({ type: AppActionTypes.SET_TOKEN, payload: { token: localToken } });
+
+      const verify = async () => {
+        setLoading(true);
+
+        try {
+          await VulpeeApi.verify();
+
+          dispatch({ type: AppActionTypes.LOGIN });
+        } catch {
+          dispatch({ type: AppActionTypes.LOGOUT });
+        }
+
+        setLoading(false);
+      };
+
+      verify();
+    } else {
+      dispatch({ type: AppActionTypes.LOGOUT });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      setLocalToken(token);
+    }
+  }, [token]);
+
+  if (loading || authenticated === undefined) {
+    return <Fragment />;
+  }
+
+  if (authenticated) {
+    return <Dashboard />;
+  }
+
+  return <Authentication />;
 }
 
 export default App;

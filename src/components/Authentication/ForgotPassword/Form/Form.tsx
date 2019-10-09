@@ -7,7 +7,7 @@ import { VulpeeApi } from '../../../../api';
 import './Form.css';
 
 interface Props {
-  onSubmit?: (email: string) => void;
+  onSubmit?: () => void;
 }
 
 function Form(props: Props) {
@@ -27,7 +27,7 @@ function Form(props: Props) {
       setValid(true);
 
       if (props.onSubmit) {
-        props.onSubmit(email);
+        props.onSubmit();
       }
     } catch (exception) {
       setError(exception.error);

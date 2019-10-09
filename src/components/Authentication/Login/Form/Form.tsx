@@ -1,16 +1,21 @@
 import React, { useState, FormEvent } from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, Input } from '@vulpee/ui';
 import { Error } from '@vulpee/js-api';
 
 import { VulpeeApi } from '../../../../api';
 
+import AppActionTypes from '../../../../actions/AppActions';
+
 import './Form.css';
 
 interface Props {
-  onSubmit?: (email: string, password: string) => void;
+  onSubmit?: (token: string) => void;
 }
 
 function Form(props: Props) {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -23,17 +28,20 @@ function Form(props: Props) {
     setError(undefined);
 
     try {
-      const data = await VulpeeApi.login(email, password);
+      const { token } = await VulpeeApi.login(email, password);
 
-      console.log(data);
       if (props.onSubmit) {
-        props.onSubmit(email, password);
+        props.onSubmit(token);
       }
+
+      setLoading(false);
+
+      dispatch({ type: AppActionTypes.SET_TOKEN, payload: { token } });
+      dispatch({ type: AppActionTypes.LOGIN });
     } catch (exception) {
+      setLoading(false);
       setError(exception.error);
     }
-
-    setLoading(false);
   }
 
   function handleChange() {

@@ -8,7 +8,7 @@ import './Form.css';
 
 interface Props {
   token: string;
-  onSubmit?: (password: string, passwordConfirmation: string) => void;
+  onSubmit?: () => void;
 }
 
 function Form(props: Props) {
@@ -29,7 +29,7 @@ function Form(props: Props) {
       setValid(true);
 
       if (props.onSubmit) {
-        props.onSubmit(password, passwordConfirmation);
+        props.onSubmit();
       }
     } catch (exception) {
       setError(exception.error);
