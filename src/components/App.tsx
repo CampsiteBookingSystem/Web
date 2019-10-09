@@ -41,9 +41,7 @@ function App() {
           await VulpeeApi.verify();
 
           dispatch({ type: AppActionTypes.LOGIN });
-        } catch {
-          dispatch({ type: AppActionTypes.LOGOUT });
-        }
+        } catch {}
 
         setLoading(false);
       };

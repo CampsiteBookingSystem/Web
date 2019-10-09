@@ -2,6 +2,8 @@ import fetchIntercept from 'fetch-intercept';
 
 import store from '../store';
 
+import AppActionTypes from '../actions/AppActions';
+
 export let unregister: any;
 
 export function register() {
@@ -30,6 +32,10 @@ export function register() {
     },
 
     response: response => {
+      if (response.status === 401) {
+        store.dispatch({ type: AppActionTypes.LOGOUT });
+      }
+
       return response;
     },
   });
