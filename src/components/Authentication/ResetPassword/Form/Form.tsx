@@ -1,8 +1,8 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useContext } from 'react';
 import { Button, Input } from '@vulpee/ui';
 import { Error } from '@vulpee/js-api';
 
-import { VulpeeApi } from '../../../../api';
+import { AppContextInterface, AppContext } from '../../../../contexts';
 
 import './Form.css';
 
@@ -12,6 +12,8 @@ interface Props {
 }
 
 function Form(props: Props) {
+  const appContext = useContext<AppContextInterface>(AppContext);
+
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +26,7 @@ function Form(props: Props) {
     setLoading(true);
 
     try {
-      await VulpeeApi.resetPassword(props.token, password, passwordConfirmation);
+      await appContext.vulpeeApi.resetPassword(props.token, password, passwordConfirmation);
 
       setValid(true);
 

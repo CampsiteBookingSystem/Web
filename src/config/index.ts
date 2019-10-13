@@ -1,1 +1,4 @@
-export const BASE_API_URL: string | undefined = process.env.REACT_APP_BASE_API_URL;
+import { Environment } from '@vulpee/js-api';
+
+export const VULPEE_API_ENVIRONMENT: Environment =
+  (process.env.REACT_APP_VULPEE_API_ENVIRONMENT as Environment) || 'production';

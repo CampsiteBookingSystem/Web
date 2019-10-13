@@ -1,19 +1,21 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocalStorage } from 'standard-hooks';
+import VulpeeAPI from '@vulpee/js-api';
+
+import { VULPEE_API_ENVIRONMENT } from '../config';
 
 import { State } from '../store';
 
-import { register, unregister } from '../plugins/fetchIntercept';
-
-import { VulpeeApi } from '../api';
-
 import AppActionTypes from '../actions/AppActions';
+
+import { AppContextInterface, AppContext } from '../contexts';
 
 import Dashboard from './Dashboard';
 import Authentication from './Authentication';
 
 import './App.css';
+import { handleError } from '../helpers';
 
 function App() {
   const [localToken, setLocalToken] = useLocalStorage<string>('token');
@@ -24,11 +26,17 @@ function App() {
   const authenticated = useSelector((state: State) => state.app.authenticated);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    register();
+  const appContextValue: AppContextInterface = {
+    vulpeeApi: new VulpeeAPI({ environment: VULPEE_API_ENVIRONMENT, version: '1.0' }),
+  };
 
-    return () => unregister();
-  }, []);
+  useEffect(() => {
+    if (token) {
+      setLocalToken(token);
+
+      appContextValue.vulpeeApi.setToken(token);
+    }
+  }, [token]);
 
   useEffect(() => {
     if (localToken) {
@@ -38,10 +46,14 @@ function App() {
         setLoading(true);
 
         try {
-          await VulpeeApi.verify();
+          appContextValue.vulpeeApi.setToken(localToken);
+
+          await appContextValue.vulpeeApi.verify();
 
           dispatch({ type: AppActionTypes.LOGIN });
-        } catch {}
+        } catch (exception) {
+          handleError(exception);
+        }
 
         setLoading(false);
       };
@@ -52,21 +64,17 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (token) {
-      setLocalToken(token);
-    }
-  }, [token]);
+  let children;
 
   if (loading || authenticated === undefined) {
-    return <Fragment />;
+    children = <Fragment />;
+  } else if (authenticated) {
+    children = <Dashboard />;
+  } else {
+    children = <Authentication />;
   }
 
-  if (authenticated) {
-    return <Dashboard />;
-  }
-
-  return <Authentication />;
+  return <AppContext.Provider value={appContextValue}>{children}</AppContext.Provider>;
 }
 
 export default App;

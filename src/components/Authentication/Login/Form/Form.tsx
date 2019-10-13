@@ -1,9 +1,9 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { Button, Input } from '@vulpee/ui';
 import { Error } from '@vulpee/js-api';
 
-import { VulpeeApi } from '../../../../api';
+import { AppContextInterface, AppContext } from '../../../../contexts';
 
 import AppActionTypes from '../../../../actions/AppActions';
 
@@ -14,6 +14,8 @@ interface Props {
 }
 
 function Form(props: Props) {
+  const appContext = useContext<AppContextInterface>(AppContext);
+
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState<string>('');
@@ -28,7 +30,7 @@ function Form(props: Props) {
     setError(undefined);
 
     try {
-      const { token } = await VulpeeApi.login(email, password);
+      const { token } = await appContext.vulpeeApi.login(email, password);
 
       if (props.onSubmit) {
         props.onSubmit(token);
