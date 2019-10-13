@@ -1,0 +1,9 @@
+.ForgotPasswordForm__input {
+  width: 400px;
+  margin-bottom: 40px;
+}
+
+.ForgotPasswordForm__message {
+  margin-bottom: 20px;
+  color: var(--color-success);
+}

@@ -6,8 +6,11 @@ import thunk from 'redux-thunk';
 
 import rootReducer from '../reducers';
 
+import { AppState } from '../reducers/AppReducer';
+
 export interface State {
   router: RouterState;
+  app: AppState;
 }
 
 export const history = createBrowserHistory();
