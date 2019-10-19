@@ -1,14 +1,7 @@
 import * as React from 'react';
-import VulpeeAPI from '@vulpee/js-api';
 
-export interface AppContextInterface {
-  vulpeeApi: VulpeeAPI;
-}
+const initialState = {};
 
-const initialState: AppContextInterface = {
-  vulpeeApi: new VulpeeAPI(),
-};
-
-const AppContext = React.createContext<AppContextInterface>(initialState);
+const AppContext = React.createContext(initialState);
 
 export default AppContext;

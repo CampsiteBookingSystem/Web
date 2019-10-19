@@ -1,11 +1,12 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocalStorage } from 'standard-hooks';
-import VulpeeAPI from '@vulpee/js-api';
-
-import { VULPEE_API_ENVIRONMENT } from '../config';
 
 import { State } from '../store';
+
+import { handleError } from '../helpers';
+
+import { VulpeeApi } from '../api';
 
 import AppActionTypes from '../actions/AppActions';
 
@@ -15,7 +16,6 @@ import Dashboard from './Dashboard';
 import Authentication from './Authentication';
 
 import './App.css';
-import { handleError } from '../helpers';
 
 function App() {
   const [localToken, setLocalToken] = useLocalStorage<string>('token');
@@ -26,15 +26,13 @@ function App() {
   const authenticated = useSelector((state: State) => state.app.authenticated);
   const dispatch = useDispatch();
 
-  const appContextValue: AppContextInterface = {
-    vulpeeApi: new VulpeeAPI({ environment: VULPEE_API_ENVIRONMENT, version: '1.0' }),
-  };
+  const appContextValue: AppContextInterface = {};
 
   useEffect(() => {
     if (token) {
       setLocalToken(token);
 
-      appContextValue.vulpeeApi.setToken(token);
+      VulpeeApi.getInstance().setToken(token);
     }
   }, [token]);
 
@@ -46,9 +44,9 @@ function App() {
         setLoading(true);
 
         try {
-          appContextValue.vulpeeApi.setToken(localToken);
+          VulpeeApi.getInstance().setToken(localToken);
 
-          await appContextValue.vulpeeApi.verify();
+          await VulpeeApi.getInstance().verify();
 
           dispatch({ type: AppActionTypes.LOGIN });
         } catch (exception) {
