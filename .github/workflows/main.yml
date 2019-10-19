@@ -8,6 +8,8 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - uses: actions/checkout@v1
       - name: Setup Node
@@ -16,8 +18,6 @@ jobs:
           node-version: '10.x'
           registry-url: https://npm.pkg.github.com/
           scope: '@vulpee'
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Install Dependencies
         run: npm ci
       - name: Lint
@@ -26,6 +26,8 @@ jobs:
   build:
     needs: [lint]
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - uses: actions/checkout@v1
       - name: Setup Node
