@@ -14,10 +14,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: View secret
-        run: echo "${{ secrets.NPM_AUTH }}""
-      - name: Setup NPM
-        run: echo "@vulpee:registry=https://npm.pkg.github.com/:_authToken=${{ secrets.NPM_AUTH }}" > ~/.npmrc
+          registry-url: https://npm.pkg.github.com/
+          scope: '@vulpee'
+      # - name: Setup NPM
+      #   run: echo "@vulpee:registry=https://npm.pkg.github.com/:_authToken=${{ secrets.NPM_AUTH }}" > ~/.npmrc
       - name: Install Dependencies
         run: npm ci
       - name: Lint
@@ -32,8 +32,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - name: Setup NPM
-        run: echo "@vulpee:registry=https://npm.pkg.github.com/:_authToken=${{ secrets.NPM_AUTH }}" > ~/.npmrc
+          registry-url: https://npm.pkg.github.com/
+          scope: '@vulpee'
+      # - name: Setup NPM
+      #   run: echo "@vulpee:registry=https://npm.pkg.github.com/:_authToken=${{ secrets.NPM_AUTH }}" > ~/.npmrc
       - name: Install Dependencies
         run: npm ci
       - name: Build
