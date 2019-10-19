@@ -18,7 +18,7 @@ import Authentication from './Authentication';
 import './App.css';
 
 function App() {
-  const [localToken, setLocalToken] = useLocalStorage<string>('token');
+  const [localToken, setLocalToken] = useLocalStorage<string | null>('token');
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -27,14 +27,6 @@ function App() {
   const dispatch = useDispatch();
 
   const appContextValue = {};
-
-  useEffect(() => {
-    if (token) {
-      setLocalToken(token);
-
-      VulpeeApi.getInstance().setToken(token);
-    }
-  }, [token]);
 
   useEffect(() => {
     if (localToken) {
@@ -61,6 +53,20 @@ function App() {
       dispatch({ type: AppActionTypes.LOGOUT });
     }
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      setLocalToken(token);
+
+      VulpeeApi.getInstance().setToken(token);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (!authenticated) {
+      setLocalToken(null);
+    }
+  }, [authenticated]);
 
   let children;
 
