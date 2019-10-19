@@ -51,7 +51,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "tslint 'src/**/*.{tsx,ts}'",
+    "lint": "tslint 'src/**/*.{tsx,ts}' --project tsconfig.json && prettier --check 'src/**/*.{tsx,ts}'",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "browserslist": {
