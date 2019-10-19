@@ -10,7 +10,7 @@ import { VulpeeApi } from '../api';
 
 import AppActionTypes from '../actions/AppActions';
 
-import { AppContextInterface, AppContext } from '../contexts';
+import { AppContext } from '../contexts';
 
 import Dashboard from './Dashboard';
 import Authentication from './Authentication';
@@ -26,7 +26,7 @@ function App() {
   const authenticated = useSelector((state: State) => state.app.authenticated);
   const dispatch = useDispatch();
 
-  const appContextValue: AppContextInterface = {};
+  const appContextValue = {};
 
   useEffect(() => {
     if (token) {
