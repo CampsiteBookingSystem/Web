@@ -8,16 +8,14 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - uses: actions/checkout@v1
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
-          registry-url: https://npm.pkg.github.com/
-          scope: '@vulpee'
+          node-version: '12.x'
+      - name: Setup NPM
+        run: echo "@vulpee:registry=https://npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Install Dependencies
         run: npm ci
       - name: Lint
@@ -26,16 +24,14 @@ jobs:
   build:
     needs: [lint]
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - uses: actions/checkout@v1
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
-          registry-url: https://npm.pkg.github.com/
-          scope: '@vulpee'
+          node-version: '12.x'
+      - name: Setup NPM
+        run: echo "@vulpee:registry=https://npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Install Dependencies
         run: npm ci
       - name: Build
