@@ -1,8 +1,8 @@
-import React, { useState, FormEvent, useContext } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Button, Input } from '@vulpee/ui';
 import { Error } from '@vulpee/js-api';
 
-import { AppContext, AppContextInterface } from '../../../../contexts';
+import { VulpeeApi } from '../../../../api';
 
 import './Form.css';
 
@@ -11,8 +11,6 @@ interface Props {
 }
 
 function Form(props: Props) {
-  const appContext = useContext<AppContextInterface>(AppContext);
-
   const [email, setEmail] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | undefined>();
@@ -24,7 +22,7 @@ function Form(props: Props) {
     setLoading(true);
 
     try {
-      await appContext.vulpeeApi.forgotPassword(email);
+      await VulpeeApi.getInstance().forgotPassword(email);
 
       setValid(true);
 
