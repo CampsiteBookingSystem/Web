@@ -16,6 +16,8 @@ jobs:
           node-version: '10.x'
           registry-url: https://npm.pkg.github.com/
           scope: '@vulpee'
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - name: Install Dependencies
         run: npm ci
       - name: Lint
