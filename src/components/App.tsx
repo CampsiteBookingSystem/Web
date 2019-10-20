@@ -2,14 +2,10 @@ import React, { useEffect, Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocalStorage } from 'standard-hooks';
 
-import { State } from '../store';
-
-import { handleError } from '../helpers';
-
 import { VulpeeApi } from '../api';
-
-import AppActionTypes from '../actions/AppActions';
-
+import { handleError } from '../helpers';
+import { State } from '../store';
+import { AppActionTypes } from '../actions';
 import { AppContext } from '../contexts';
 
 import Dashboard from './Dashboard';
@@ -52,7 +48,7 @@ function App() {
     } else {
       dispatch({ type: AppActionTypes.LOGOUT });
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (token) {
@@ -60,13 +56,13 @@ function App() {
 
       VulpeeApi.getInstance().setToken(token);
     }
-  }, [token]);
+  }, [token, setLocalToken]);
 
   useEffect(() => {
     if (!authenticated) {
       setLocalToken(null);
     }
-  }, [authenticated]);
+  }, [authenticated, setLocalToken]);
 
   let children;
 

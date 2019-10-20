@@ -4,8 +4,7 @@ import { Button, Input } from '@vulpee/ui';
 import { Error } from '@vulpee/js-api';
 
 import { VulpeeApi } from '../../../../api';
-
-import AppActionTypes from '../../../../actions/AppActions';
+import { AppActionTypes } from '../../../../actions';
 
 import './Form.css';
 

@@ -1,0 +1,8 @@
+.Dashboard {
+  height: 100%;
+  background-color: var(--color-background-grey);
+}
+
+.Dashboard__content {
+  padding: 50px 40px;
+}

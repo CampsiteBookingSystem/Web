@@ -1,0 +1,9 @@
+.Establishments {
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.Establishments__items {
+  display: flex;
+  margin: 0 -30px;
+}
