@@ -38,9 +38,12 @@ function Form(props: Props) {
       dispatch({ type: AppActionTypes.SET_TOKEN, payload: { token } });
       dispatch({ type: AppActionTypes.LOGIN });
     } catch (exception) {
-      setLoading(false);
-      setError(exception.error);
+      const data = await exception.json();
+
+      setError(data.error);
     }
+
+    setLoading(false);
   }
 
   function handleChange() {
