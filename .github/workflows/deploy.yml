@@ -16,4 +16,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
-          script: /var/www/vulpee/infrastructure/deploy/admin/dev.sh
+          script: bash -i -c "/var/www/vulpee/infrastructure/deploy/admin/dev.sh"
