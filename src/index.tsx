@@ -6,7 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import store, { history } from './store';
 
 import App from './components/App';
-import ErrorBoundary from './components/ErrorBoundary';
+import { ErrorBoundary } from './components/Error';
 
 import 'sanitize.css/sanitize.css';
 import 'sanitize.css/forms.css';

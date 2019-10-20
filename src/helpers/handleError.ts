@@ -1,6 +1,6 @@
 import store from '../store';
 
-import AppActionTypes from '../actions/AppActions';
+import { AppActionTypes } from '../actions';
 
 function handleError(exception: Response) {
   if (exception.status === 401) {

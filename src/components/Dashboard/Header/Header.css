@@ -1,0 +1,36 @@
+.Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  background-color: #ffffff;
+}
+
+.Header__logo {
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.Header__logo-image {
+  margin-bottom: 6px;
+}
+
+.Header__logo-text {
+  margin-left: 10px;
+  font-size: 18px;
+}
+
+.Header__user {
+  margin-right: 20px;
+}
+
+.Header__logout {
+  padding: 0;
+  border: 0;
+  color: var(--color-text);
+  font-size: 15px;
+  cursor: pointer;
+}
