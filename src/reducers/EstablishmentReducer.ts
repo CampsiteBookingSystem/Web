@@ -1,7 +1,7 @@
 import * as Redux from 'redux';
 import { Establishment } from '@vulpee/js-api';
 
-import { EstablishmentActionTypes } from '../actions';
+import { EstablishmentActionTypes, AppActionTypes } from '../actions';
 
 export interface EstablishmentState {
   establishments: Establishment[];
@@ -74,6 +74,12 @@ export function establishmentReducer(
         ...state,
         establishmentLoading: false,
         establishmentError: true,
+      };
+
+    case AppActionTypes.LOGOUT:
+      return {
+        ...state,
+        establishments: [],
       };
 
     default:

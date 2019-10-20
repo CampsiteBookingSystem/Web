@@ -51,11 +51,9 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (token) {
-      setLocalToken(token);
+    setLocalToken(token || null);
 
-      VulpeeApi.getInstance().setToken(token);
-    }
+    VulpeeApi.getInstance().setToken(token);
   }, [token, setLocalToken]);
 
   useEffect(() => {
