@@ -56,7 +56,7 @@
     "lint": "tslint 'src/**/*.{tsx,ts}' --project tsconfig.json && prettier --check 'src/**/*.{tsx,ts}'",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --record"
+    "cypress:run": "cypress run --record --key $CYPRESS_DASHBOARD_KEY"
   },
   "browserslist": {
     "production": [
