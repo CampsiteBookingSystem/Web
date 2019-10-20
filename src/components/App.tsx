@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocalStorage } from 'standard-hooks';
+import { useLocalStorage } from 'web-api-hooks';
 
 import { VulpeeApi } from '../api';
 import { handleError } from '../helpers';
