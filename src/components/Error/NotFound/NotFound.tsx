@@ -24,4 +24,8 @@ function NotFound(props: Props) {
   );
 }
 
+NotFound.defaultProps = {
+  title: 'Page not found',
+};
+
 export default NotFound;

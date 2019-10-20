@@ -29,12 +29,6 @@ export function appReducer(state: AppState = appInitialState, action: Redux.AnyA
         authenticated: true,
       };
 
-    case AppActionTypes.LOGOUT:
-      return {
-        ...state,
-        authenticated: false,
-      };
-
     case AppActionTypes.SET_TOKEN:
       return { ...state, token: action.payload.token };
 
@@ -57,6 +51,14 @@ export function appReducer(state: AppState = appInitialState, action: Redux.AnyA
         ...state,
         userLoading: false,
         userError: true,
+      };
+
+    case AppActionTypes.LOGOUT:
+      return {
+        ...state,
+        authenticated: false,
+        token: undefined,
+        user: undefined,
       };
 
     default:

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
+import { State } from '../../../store';
 import { VulpeeApi } from '../../../api';
 import { handleError } from '../../../helpers';
 import { AppActionTypes } from '../../../actions';
@@ -9,9 +10,9 @@ import { AppActionTypes } from '../../../actions';
 import logo from '../../../assets/images/logo.png';
 
 import './Header.css';
-import { State } from '../../../store';
 
 function Header() {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state: State) => state.app);
@@ -24,6 +25,8 @@ function Header() {
     }
 
     dispatch({ type: AppActionTypes.LOGOUT });
+
+    history.push('/');
   }
 
   return (
