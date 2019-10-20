@@ -1,11 +1,11 @@
-describe('Authentication - Logout', () => {
+export = describe('Authentication - Logout', () => {
   beforeEach(() => {
     cy.server();
 
     cy.login('test-1@vulpee.com', 'password');
     cy.visit('/');
 
-    cy.route('POST', 'http://api.vulpee.local/1.0/auth/logout').as('logout');
+    cy.route('POST', '/1.0/auth/logout').as('logout');
   });
 
   it('Should logout on click on button in header', () => {

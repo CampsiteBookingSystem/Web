@@ -2,9 +2,9 @@ describe('Dashboard', () => {
   beforeEach(() => {
     cy.server();
 
-    cy.route('POST', 'http://api.vulpee.local/1.0/auth/verify').as('verify');
-    cy.route('GET', 'http://api.vulpee.local/1.0/user/me').as('user');
-    cy.route('GET', 'http://api.vulpee.local/1.0/establishment').as('establishments');
+    cy.route('POST', '/1.0/auth/verify').as('verify');
+    cy.route('GET', '/1.0/user/me').as('user');
+    cy.route('GET', '/1.0/establishment').as('establishments');
   });
 
   it('Dashboard should be visible', () => {

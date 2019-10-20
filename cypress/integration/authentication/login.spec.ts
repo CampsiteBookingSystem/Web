@@ -1,24 +1,26 @@
-describe('Authentication - Login', () => {
+export default describe('Authentication - Login', () => {
   beforeEach(() => {
     cy.server();
 
     cy.visit('/');
 
-    cy.route('POST', 'http://api.vulpee.local/1.0/auth/sign-in').as('login');
+    cy.route('POST', '/1.0/auth/sign-in').as('login');
   });
 
-  function emailFieldHasError() {
-    cy.get('.BS-Input__input[name="email"]')
-      .parent()
-      .parent()
-      .should('have.class', 'BS-Input--has-error');
+  function emailFieldHasError(message?: string) {
+    cy.get('.BS-Input--email').should('have.class', 'BS-Input--has-error');
+
+    if (message) {
+      cy.get('.BS-Input--email .BS-Input__error').contains(message);
+    }
   }
 
-  function passwordFieldHasError() {
-    cy.get('.BS-Input__input[name="password"]')
-      .parent()
-      .parent()
-      .should('have.class', 'BS-Input--has-error');
+  function passwordFieldHasError(message?: string) {
+    cy.get('.BS-Input--password').should('have.class', 'BS-Input--has-error');
+
+    if (message) {
+      cy.get('.BS-Input--password .BS-Input__error').contains(message);
+    }
   }
 
   it('Button should be disabled', () => {
@@ -40,13 +42,13 @@ describe('Authentication - Login', () => {
       .click()
       .blur();
 
-    emailFieldHasError();
+    emailFieldHasError('Please enter your email address.');
 
     cy.get('.BS-Input__input[name="password"]')
       .click()
       .blur();
 
-    passwordFieldHasError();
+    passwordFieldHasError('Please enter your password.');
   });
 
   it('Should call login API', () => {
@@ -67,25 +69,11 @@ describe('Authentication - Login', () => {
     cy.get('.BS-Input__input[name="password"]').type('password');
     cy.get('.LoginForm__actions button[type="submit"]').click();
 
-    cy.wait('@login').then(xhr => {
-      expect(xhr.status).to.equal(400);
+    cy.wait('@login')
+      .its('status')
+      .should('equal', 400);
 
-      xhr.response.body.text().then(data => {
-        const json = JSON.parse(data);
-
-        expect(json).to.have.property('error');
-
-        expect(json.error)
-          .to.have.property('field')
-          .that.equals('uid');
-
-        expect(json.error)
-          .to.have.property('validation')
-          .that.equals('email');
-      });
-    });
-
-    emailFieldHasError();
+    emailFieldHasError('Please enter a valid email.');
   });
 
   it('Should error on wrong email', () => {
@@ -93,25 +81,11 @@ describe('Authentication - Login', () => {
     cy.get('.BS-Input__input[name="password"]').type('password');
     cy.get('.LoginForm__actions button[type="submit"]').click();
 
-    cy.wait('@login').then(xhr => {
-      expect(xhr.status).to.equal(400);
+    cy.wait('@login')
+      .its('status')
+      .should('equal', 400);
 
-      xhr.response.body.text().then(data => {
-        const json = JSON.parse(data);
-
-        expect(json).to.have.property('error');
-
-        expect(json.error)
-          .to.have.property('field')
-          .that.equals('uid');
-
-        expect(json.error)
-          .to.have.property('validation')
-          .that.equals('exists');
-      });
-    });
-
-    emailFieldHasError();
+    emailFieldHasError("We couldn't find your Vulpee account.");
   });
 
   it('Should error on wrong password', () => {
@@ -119,26 +93,12 @@ describe('Authentication - Login', () => {
     cy.get('.BS-Input__input[name="password"]').type('wrong-password');
     cy.get('.LoginForm__actions button[type="submit"]').click();
 
-    cy.wait('@login').then(xhr => {
-      expect(xhr.status).to.equal(400);
+    cy.wait('@login')
+      .its('status')
+      .should('equal', 400);
 
-      xhr.response.body.text().then(data => {
-        const json = JSON.parse(data);
-
-        expect(json).to.have.property('error');
-
-        expect(json.error)
-          .to.have.property('field')
-          .that.equals('password');
-
-        expect(json.error)
-          .to.have.property('validation')
-          .that.equals('mis_match');
-      });
-    });
-
-    emailFieldHasError();
-    passwordFieldHasError();
+    emailFieldHasError('');
+    passwordFieldHasError('The email and password combination you entered is incorrect.');
   });
 
   it('Should sign in correctly', () => {
@@ -146,19 +106,13 @@ describe('Authentication - Login', () => {
     cy.get('.BS-Input__input[name="password"]').type('password');
     cy.get('.LoginForm__actions button[type="submit"]').click();
 
-    cy.wait('@login').then(xhr => {
-      expect(xhr.status).to.equal(200);
-
-      xhr.response.body.text().then(data => {
-        const json = JSON.parse(data);
-
-        expect(json).to.have.property('token');
-
-        const localStorageToken = localStorage.getItem('token') || '';
-
-        expect(JSON.parse(localStorageToken)).to.equal(json.token);
+    cy.wait('@login')
+      .its('status')
+      .should('equal', 200)
+      .then(() => {
+        const localStorageToken = localStorage.getItem('token');
+        expect(localStorageToken).to.not.equal(null);
       });
-    });
 
     cy.get('.Dashboard');
   });

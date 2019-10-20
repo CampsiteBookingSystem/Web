@@ -24,15 +24,24 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('login', (uid, password) => {
+declare namespace Cypress {
+  interface Chainable {
+    login: typeof login;
+    // ...
+  }
+}
+
+Cypress.Commands.add('login', login);
+
+function login(uid: string, password: string) {
   Cypress.log({
     name: 'login',
-    message: uid + ' | ' + password,
+    message: [uid, password],
   });
 
   cy.request({
     method: 'POST',
-    url: 'http://api.vulpee.local/1.0/auth/sign-in',
+    url: 'https://api.vulpee.bramvanosta.dev/1.0/auth/sign-in',
     body: {
       uid,
       password,
@@ -40,4 +49,4 @@ Cypress.Commands.add('login', (uid, password) => {
   }).then(response => {
     localStorage.setItem('token', response.body.token);
   });
-});
+}
