@@ -32,7 +32,9 @@ function Form(props: Props) {
         props.onSubmit();
       }
     } catch (exception) {
-      setError(exception.error);
+      const data = await exception.json();
+
+      setError(data.error);
     }
 
     setLoading(false);
