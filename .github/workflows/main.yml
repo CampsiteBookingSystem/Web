@@ -1,4 +1,4 @@
-name: Lint and Build
+name: Lint, Build and Test
 
 on:
   pull_request:
@@ -6,37 +6,30 @@ on:
       - master
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
           node-version: '12.x'
           registry-url: https://npm.pkg.github.com/
           scope: '@vulpee'
+
       - name: Install Dependencies
         run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH}}
+
       - name: Lint
         run: npm run lint
 
-  build:
-    needs: [lint]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-          registry-url: https://npm.pkg.github.com/
-          scope: '@vulpee'
-      - name: Install Dependencies
-        run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH}}
       - name: Build
         run: npm run build
+
+      - name: Run Cypress
+        run: npm run cypress:run
+        env:
+          CYPRESS_DASHBOARD_KEY: ${{secrets.CYPRESS_DASHBOARD_KEY}}
