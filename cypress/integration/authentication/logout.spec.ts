@@ -28,6 +28,7 @@ export = describe('Authentication - Logout', () => {
     cy.get('.Header__logout').click();
 
     cy.wait('@logout').then(() => {
+      cy.wait(1000);
       expect(localStorage.getItem('token')).to.equal('null');
     });
   });
